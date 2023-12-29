@@ -11,6 +11,8 @@ def imageToArray(path) -> numpy.ndarray:
 
     [R, G, B, A] format in each instance of input_array[i][i].
 
+    Automatically resizes pictures to 50 x 50
+
     Parameter
         path (str): The path of the image
 
@@ -18,8 +20,21 @@ def imageToArray(path) -> numpy.ndarray:
         numpy.ndarray(): the image in an array format
     """
     image = Image.open(path)
-    return asarray(image)
+    return asarray(image.resize((50, 50)))
 
+
+def RGBAtoGreyScaleList(array) -> list:
+    """
+    Turns RGBA to Grey scale. (Normalized) into one list.
+
+    Parameter:
+        array (ndarray): The numpy.ndarray, in the format of nested arrays (array of array of ints)
+    """
+    greyList = []
+    for row in range(len(array)):
+        for cell in range(len(array[row])):
+            greyList.append(sum(array[row][cell][:3]) / 765)
+    return greyList
 
 
 def arrayToImage(array) -> None:
